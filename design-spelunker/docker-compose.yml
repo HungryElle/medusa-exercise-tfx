@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: medusa-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: medusa-design-spelunker
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - medusa-db-data:/var/lib/postgresql/data
+
+volumes:
+  medusa-db-data:
