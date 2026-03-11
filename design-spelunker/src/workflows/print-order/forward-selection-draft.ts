@@ -1,5 +1,8 @@
 import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { forwardSelectionDraftStep } from "./steps/forward-selection-draft-step"
+import {
+    validateDraftStep, reserveDesignFilesStep,
+    sendPartnerEmailStep, updateDraftStatusStep
+} from "./steps/forward-selection-draft-step"
 
 export interface ForwardSelectionDraftWorkflowInput {
     id: string
@@ -8,8 +11,11 @@ export interface ForwardSelectionDraftWorkflowInput {
 export const forwardSelectionDraftWorkflow = createWorkflow(
     "forward-selection-draft-workflow",
     (input: ForwardSelectionDraftWorkflowInput) => {
-        const result = forwardSelectionDraftStep(input.id)
+        const validate = validateDraftStep(input.id)
+        const reserved = reserveDesignFilesStep(validate.id)
+        const send_email = sendPartnerEmailStep(reserved.id)
+        const update_starus = updateDraftStatusStep(send_email.id)
 
-        return new WorkflowResponse(result)
+        return new WorkflowResponse(update_starus)
     }
 )

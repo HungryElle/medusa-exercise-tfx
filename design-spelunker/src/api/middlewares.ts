@@ -26,7 +26,8 @@ export default defineMiddlewares({
                         "slug",
                         "designer_credit",
                         "createdAt",
-                        "updatedAt"
+                        "updatedAt",
+                        "reserved"
                     ],
                 }),
             ],
@@ -93,9 +94,9 @@ export default defineMiddlewares({
             middlewares: [validateAndTransformBody(UpdateDraftSchema)],
         },
         {
-            matcher: "/store/selection-drafts/:id",
+            matcher: "/store/selection-drafts/:id/forward",
             method: "POST",
-            middlewares: [],
+            middlewares: [authenticate("customer", ["session", "bearer"])],
         },
         {
             matcher: "/store/selection-drafts/:id",
