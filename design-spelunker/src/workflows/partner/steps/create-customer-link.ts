@@ -17,7 +17,10 @@ export const createCustomerLinkStep = createStep(
             SATELLITE_MODULE
         )
 
-        const partner = await satelliteModuleService.createCustomerPartnerLinks(input)
+        const partner = await satelliteModuleService.createCustomerPartnerLinks({
+            ...input,
+            link_at: new Date(),
+        })
 
         return new StepResponse(partner, partner.id)
     },

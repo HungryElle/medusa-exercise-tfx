@@ -1,4 +1,4 @@
-import { defineMiddlewares, validateAndTransformQuery, validateAndTransformBody } from "@medusajs/framework/http"
+import { defineMiddlewares, validateAndTransformQuery, validateAndTransformBody, authenticate } from "@medusajs/framework/http"
 import { GetDesignsSchema, CreateDesignSchema, UpdateDesignCreditSchema } from "./store/designs/validators"
 import {
     AddItemToDraftSchema, CreateDraftSchema,
@@ -7,6 +7,8 @@ import {
 } from "./store/selection-drafts/validators"
 import { CreatePartnerSchema, CreatePartnerLinkCodeSchema } from "./admin/partner/validator"
 import { LinkPartnerSchema } from "./store/link-partner/validator"
+import { any } from "prop-types"
+import { ZodAny, ZodSchema } from "@medusajs/framework/zod"
 
 export default defineMiddlewares({
     routes: [
@@ -158,7 +160,20 @@ export default defineMiddlewares({
             method: "POST",
             middlewares: [
                 validateAndTransformBody(LinkPartnerSchema),
+                authenticate("customer", ["session", "bearer"])
             ],
+        },
+        {
+            matcher: "/store/my-partner",
+            method: "GET",
+            middlewares: [
+                authenticate("customer", ["session", "bearer"]),
+            ],
+        },
+        {
+            matcher: "/admin/partner/:partnerId/customers/:customerId",
+            method: "DELETE",
+            middlewares: [],
         },
 
     ]
