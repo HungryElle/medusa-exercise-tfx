@@ -14,8 +14,8 @@ export const forwardSelectionDraftWorkflow = createWorkflow(
         const validate = validateDraftStep(input.id)
         const reserved = reserveDesignFilesStep(validate.id)
         const send_email = sendPartnerEmailStep(reserved.id)
-        const update_starus = updateDraftStatusStep(send_email.id)
+        const update_status = updateDraftStatusStep(send_email.id)
 
-        return new WorkflowResponse(update_starus)
+        return new WorkflowResponse(update_status)
     }
 )
