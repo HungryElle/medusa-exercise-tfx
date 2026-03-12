@@ -7,4 +7,5 @@ export const Design = model.define("design", {
     tags: model.array(),
     slug: model.text(),
     designer_credit: model.text().nullable(),
+    reserved: model.boolean().default(false),
 })

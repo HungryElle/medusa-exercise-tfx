@@ -75,18 +75,8 @@ class PrintOrderModuleService extends (MedusaService({
         console.log("Message sent: %s", info.messageId);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
-        draftItems.map(item => this.updateSelectionItems({
-            id: item.id,
-            sent_at: new Date(),
-        }))
+        return draft
 
-
-        const updated = await this.updateSelectionDrafts({
-            id: draft.id,
-            status: "forwarded"
-        })
-
-        return updated
     }
 }
 
