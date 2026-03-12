@@ -5,7 +5,11 @@ import PrintOrderModuleService from "../../../modules/print-order/service"
 import DesignModuleService from "../../../modules/design/service"
 
 export const sendPartnerEmailStep = createStep(
-    "send-partner-email-step",
+    {
+        name: "send-partner-email-step",
+        maxRetries: 3,
+        retryInterval: 5, // wait 5 seconds before each retry
+    },
     async (id: string, { container }) => {
         const printOrderModuleService: PrintOrderModuleService = container.resolve(
             PRINT_ORDER_MODULE
