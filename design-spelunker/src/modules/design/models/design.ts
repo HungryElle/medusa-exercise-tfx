@@ -8,4 +8,5 @@ export const Design = model.define("design", {
     slug: model.text(),
     designer_credit: model.text().nullable(),
     reserved: model.boolean().default(false),
+    payload_id: model.text().nullable()
 })
