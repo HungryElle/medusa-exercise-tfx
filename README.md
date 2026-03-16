@@ -94,3 +94,6 @@ From the inside of the `design-spelunker` directory, you can run:
 - `npm run start` - Starts the built application.
 - `npm run seed` - Runs the local seed script to populate the database with test data.
 - `npm run test:unit` - Run unit tests.
+
+## Notes:
+- The payload signature verification is working as expected. But I need to understand how the signature is generated in payload CMS.
