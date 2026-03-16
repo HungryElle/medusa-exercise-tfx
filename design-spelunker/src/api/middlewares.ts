@@ -176,6 +176,13 @@ export default defineMiddlewares({
             method: "DELETE",
             middlewares: [],
         },
+        {
+            matcher: "/admin/payload-sync/design",
+            method: "POST",
+            bodyParser: {
+                preserveRawBody: true,
+            },
+        },
 
     ]
 })
