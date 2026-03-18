@@ -96,4 +96,4 @@ From the inside of the `design-spelunker` directory, you can run:
 - `npm run test:unit` - Run unit tests.
 
 ## Notes:
-- The payload signature verification is working as expected. But I need to understand how the signature is generated in payload CMS.
+- This banch implement till project 7 
