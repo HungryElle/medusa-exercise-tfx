@@ -21,7 +21,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         }
     } catch (error) {
         console.log(error)
-        return res.status(401).json({ message: "Invalid signature" })
+        return res.status(401).json({ message: "Invalid signature", error })
     }
 
     const validated = req.body as z.infer<typeof SyncDesignSchema>
@@ -29,20 +29,25 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     console.log("Designs", designs)
     console.log("Validated", validated)
 
-    const { result, errors } = await payloadSyncWorkflow(req.scope).run({
-        input: {
-            design_id: designs[0]?.id,
-            payload_id: validated.doc.id,
-            name: validated.doc.name,
-            description: validated.doc.description,
-            slug: validated.doc.slug,
-            tags: validated.doc.tags,
-            designer_credit: validated.doc.designer_credit,
-            operation: validated.operation,
+    if (validated.doc.status === "published") {
+        const { result, errors } = await payloadSyncWorkflow(req.scope).run({
+            input: {
+                design_id: designs[0]?.id,
+                payload_id: validated.doc.id,
+                name: validated.doc.name,
+                description: validated.doc.description,
+                slug: validated.doc.slug,
+                tags: validated.doc.tags,
+                designer_credit: validated.doc.designer_credit,
+                operation: validated.operation,
+            }
+
+        })
+        if (errors.length) {
+            return res.status(401).json({ message: "Invalid signature" })
         }
-    })
-    if (errors.length) {
-        return res.status(401).json({ message: "Invalid signature" })
+        res.status(200).json({ received: true })
+
     }
-    res.status(200).json({ received: true })
+    res.status(200).json({ ignored: true })
 }
